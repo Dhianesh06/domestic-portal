@@ -1,0 +1,13 @@
+# Development Environment Profile
+# In deployed environments, credentials are automatically resolved via IAM Roles (ECS task execution / EC2 instance profile)
+
+spring:
+  jpa:
+    show-sql: false
+
+aws:
+  secretsmanager:
+    enabled: ${AWS_SECRETS_ENABLED:true}
+    region: ${AWS_REGION:ap-southeast-1}
+    secret-name: ${AWS_SECRET_NAME:domestic-portal/dev/db-credentials}
+

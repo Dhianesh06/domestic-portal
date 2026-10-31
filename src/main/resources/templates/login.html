@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mobi | Merchant Login</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/images/newMobiMIcon.svg}" href="/images/newMobiMIcon.svg"/>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body, input, button {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f1f5fa;
+            background-image: radial-gradient(#dbe7f5 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(15, 94, 168, 0.08);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 440px;
+            transition: all 0.3s ease;
+        }
+
+        .login-card:hover {
+            box-shadow: 0 14px 40px rgba(15, 94, 168, 0.12);
+        }
+
+        .mobi-logo {
+            height: 38px;
+            margin-bottom: 1.5rem;
+        }
+
+        .welcome-title {
+            color: #0f5ea8;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .welcome-subtitle {
+            color: #858585;
+            font-size: 13.5px;
+            margin-bottom: 1.8rem;
+        }
+
+        .form-label {
+            color: #586570;
+            font-size: 13.5px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .input-group-custom {
+            position: relative;
+        }
+
+        .input-group-custom:focus-within > .material-icons:first-child {
+            color: #0f5ea8;
+        }
+
+        .input-group-custom > .material-icons {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #858585;
+            font-size: 20px;
+            pointer-events: none;
+            transition: color 0.2s ease;
+        }
+
+        .form-control-mobi {
+            width: 100%;
+            border: none;
+            border-bottom: 1.5px solid #e89b23 !important;
+            border-radius: 0 !important;
+            padding: 0.6rem 32px 0.6rem 28px !important;
+            font-size: 14.5px;
+            color: #333333;
+            background-color: transparent !important;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control-mobi:focus {
+            outline: none;
+            border-bottom: 2px solid #0f5ea8 !important;
+            box-shadow: none;
+        }
+
+        .form-control-mobi::placeholder {
+            color: #b0b7be;
+            font-size: 14px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #858585;
+            user-select: none;
+        }
+
+        .toggle-password:hover {
+            color: #0f5ea8;
+        }
+
+        .forgot-link {
+            color: #0f5ea8;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .forgot-link:hover {
+            color: #e89b23;
+            text-decoration: underline;
+        }
+
+        .btn-mobi-login {
+            background-color: #0f5ea8;
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 0;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            width: 100%;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(15, 94, 168, 0.25);
+        }
+
+        .btn-mobi-login:hover:not(:disabled) {
+            background-color: #0c4d8b;
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(15, 94, 168, 0.35);
+        }
+
+        .btn-mobi-login:disabled {
+            background-color: #b9d2eb;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .alert-custom {
+            display: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            margin-bottom: 1.25rem;
+            align-items: center;
+        }
+
+        .alert-error {
+            background-color: #fde8e8;
+            color: #e02424;
+            border-left: 4px solid #e02424;
+        }
+
+        .alert-success {
+            background-color: #def7ec;
+            color: #03543f;
+            border-left: 4px solid #03543f;
+        }
+
+        #btnSpinner {
+            display: none;
+            margin-right: 8px;
+        }
+
+        .brand-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <!-- Mobi Brand Logo -->
+    <div class="text-start">
+        <img th:src="@{/images/MobiBlueLogo.svg}" src="/images/MobiBlueLogo.svg" alt="Mobi" class="mobi-logo">
+    </div>
+
+    <!-- Title Header -->
+    <h2 class="welcome-title">Merchant Login</h2>
+    <p class="welcome-subtitle">Please enter your credentials to access your merchant portal.</p>
+
+    <!-- Error/Notice Alert Box -->
+    <div id="alertBox" class="alert-custom alert-error" role="alert">
+        <span class="material-icons me-2" style="font-size: 18px;">error_outline</span>
+        <span id="alertMessage">Invalid username or password</span>
+    </div>
+
+    <div th:if="${param.logout}" class="alert-custom alert-success d-flex mb-3">
+        <span class="material-icons me-2" style="font-size: 18px;">check_circle</span>
+        <span>You have been logged out successfully.</span>
+    </div>
+
+    <!-- Success Flash message from Forgot Password -->
+    <div th:if="${successMessage}" class="alert-custom alert-success d-flex mb-3">
+        <span class="material-icons me-2" style="font-size: 18px;">check_circle</span>
+        <span th:text="${successMessage}">Password changed successfully.</span>
+    </div>
+
+    <!-- Login Form -->
+    <form id="merchantLoginForm" autocomplete="off">
+        <!-- Username Field -->
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <div class="input-group-custom">
+                <span class="material-icons">person_outline</span>
+                <input type="text" id="username" class="form-control form-control-mobi"
+                       placeholder="Enter Username" required autofocus>
+            </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-2">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group-custom">
+                <span class="material-icons">lock_outline</span>
+                <input type="password" id="password" class="form-control form-control-mobi"
+                       placeholder="Enter Password" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility()">
+                    <span id="eyeIcon" class="material-icons" style="font-size: 20px;">visibility_off</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Forgot Password Link -->
+        <div class="d-flex justify-content-end mb-2">
+            <a th:href="@{/v1/forgot-password}" href="/v1/forgot-password" class="forgot-link">Forgot Password?</a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="loginBtn" class="btn btn-mobi-login">
+            <span class="spinner-border spinner-border-sm" id="btnSpinner" role="status" aria-hidden="true"></span>
+            <span id="btnText">Login</span>
+        </button>
+    </form>
+
+    <div class="brand-footer">
+        &copy; 2026 Mobiversa. All rights reserved.
+    </div>
+</div>
+
+<!-- JavaScript for JWT AJAX Submission -->
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.textContent = 'visibility';
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.textContent = 'visibility_off';
+        }
+    }
+
+    document.getElementById('merchantLoginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const alertBox = document.getElementById('alertBox');
+        const alertMessage = document.getElementById('alertMessage');
+        const loginBtn = document.getElementById('loginBtn');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const btnText = document.getElementById('btnText');
+
+        if (!username || !password) {
+            showAlert('Please enter both username and password.');
+            return;
+        }
+
+        // Show loading state
+        loginBtn.disabled = true;
+        btnSpinner.style.display = 'inline-block';
+        btnText.textContent = 'Authenticating...';
+        alertBox.style.display = 'none';
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                // Token is also saved in HttpOnly cookie by server;
+                // Optional: Store in sessionStorage for client API calls
+                sessionStorage.setItem('mobi_jwt_token', data.token);
+
+                // Redirect to the merchant dashboard
+                window.location.href = data.redirectUrl || '/merchant/merchantweb';
+                return;
+            }
+            showAlert(data.message || 'Invalid username or password');
+        } catch (error) {
+            showAlert('Unable to reach authentication service. Please try again.');
+        }
+
+        loginBtn.disabled = false;
+        btnSpinner.style.display = 'none';
+        btnText.textContent = 'Login';
+    });
+
+    function showAlert(message) {
+        const alertBox = document.getElementById('alertBox');
+        const alertMessage = document.getElementById('alertMessage');
+        alertMessage.textContent = message;
+        alertBox.style.display = 'flex';
+    }
+</script>
+
+</body>
+</html>
+

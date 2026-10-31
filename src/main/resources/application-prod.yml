@@ -1,0 +1,13 @@
+# Production Environment Profile
+# High security: credentials strictly retrieved via IAM Role from AWS Secrets Manager
+
+spring:
+  jpa:
+    show-sql: false
+
+aws:
+  secretsmanager:
+    enabled: ${AWS_SECRETS_ENABLED:true}
+    region: ${AWS_REGION:ap-southeast-1}
+    secret-name: ${AWS_SECRET_NAME:domestic-portal/prod/db-credentials}
+
